@@ -1,5 +1,4 @@
-// src/user/user.service.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -24,5 +23,23 @@ export class UserService {
 
   async deleteUser(id: number) {
     return this.prisma.user.delete({ where: { id } });
+  }
+
+  async signIn(signInDto: { email: string; password: string }) {
+    const { email, password } = signInDto;
+
+   
+    const user = await this.prisma.user.findUnique({ where: { email } });
+    
+    
+    if (!user) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+    
+    if (password !== user.password) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    return user;
   }
 }

@@ -14,15 +14,15 @@ export class PostService {
     return this.prisma.post.findMany();
   }
 
-  async findPostById(id: number) {
-    return this.prisma.post.findUnique({ where: { id } });
+  async findPostsByUserId(userId: number) {
+    return this.prisma.post.findMany({ where: { userId } }); // Find posts by user ID
   }
 
-  async updatePost(id: number, data: { content?: string; image?: string }) {
-    return this.prisma.post.update({ where: { id }, data });
+  async updatePostByUserId(userId: number, data: { content?: string; image?: string }) {
+    return this.prisma.post.updateMany({ where: { userId }, data }); // Update posts by user ID
   }
 
-  async deletePost(id: number) {
-    return this.prisma.post.delete({ where: { id } });
+  async deletePostByUserId(userId: number) {
+    return this.prisma.post.deleteMany({ where: { userId } }); // Delete posts by user ID
   }
 }

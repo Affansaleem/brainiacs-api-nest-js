@@ -29,4 +29,10 @@ export class UserController {
   remove(@Param('id') id: number) {
     return this.userService.deleteUser(id);
   }
+
+  // Sign in endpoint
+  @Post('signin')
+  async signIn(@Body() signInDto: { email: string; password: string }) {
+    return this.userService.signIn(signInDto);
+  }
 }
